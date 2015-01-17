@@ -13,6 +13,7 @@ public class Movie extends Item {
         this.movie_rating = movie_rating;
         availabilty = true;
     }
+    
 
     public  String getDetails()
     {

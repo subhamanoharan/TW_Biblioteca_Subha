@@ -1,10 +1,9 @@
 package com.twu.biblioteca;
 
-import com.twu.biblioteca.library.Book;
-import com.twu.biblioteca.library.Customer;
-import com.twu.biblioteca.library.Librarian;
-import com.twu.biblioteca.library.Movie;
+import com.twu.biblioteca.library.*;
 import org.junit.Test;
+
+import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,68 +14,70 @@ public class LibrarianTests {
     Book book = new Book("Head First Java", "Kerry Bates", 1990);
     Customer customer = new Customer("John","john@gmail.com","9123456780","123-1234","xxxx");
     Movie movie = new Movie("I", 1990, "Shankar", "unrated");
+    HashMap<Item, Customer> ledger = new HashMap<Item, Customer>();
+
 
     @Test
     public void shouldValidateBookCheckOut() {
-        assertTrue(librarian.checkOut(customer, book));
+        assertTrue(librarian.checkOut(customer, book, ledger));
     }
 
     @Test
     public void shouldCheckInValidBookCheckOut() {
-        assertFalse(librarian.checkOut(customer, null));
+        assertFalse(librarian.checkOut(customer, null, ledger));
     }
 
     @Test
     public void shouldCheckBookSuccessfulReturn()
     {
-        librarian.checkOut(customer, book);
-        assertTrue(librarian.returnBack(book, customer));
+        librarian.checkOut(customer, book, ledger);
+        assertTrue(librarian.returnBack(book, customer, ledger));
 
     }
     @Test
     public void shouldCheckBookUnSuccessfulReturn()
     {
-        librarian.checkOut(customer, book);
-        assertFalse(librarian.returnBack(null, customer));
+        librarian.checkOut(customer, book, ledger);
+        assertFalse(librarian.returnBack(null, customer, ledger));
     }
 
     @Test
     public void shouldValidateMovieCheckOut() {
-        assertTrue(librarian.checkOut(customer, movie));
+        assertTrue(librarian.checkOut(customer, movie, ledger));
     }
 
     @Test
     public void shouldCheckInValidMovieCheckOut() {
-        assertFalse(librarian.checkOut(customer, null));
+        assertFalse(librarian.checkOut(customer, null, ledger));
     }
 
     @Test
     public void shouldCheckMovieSuccessfulReturn()
     {
-        librarian.checkOut(customer,movie);
-        assertTrue(librarian.returnBack(movie, customer));
+        librarian.checkOut(customer,movie, ledger);
+        assertTrue(librarian.returnBack(movie, customer, ledger));
     }
 
     @Test
     public void shouldCheckMovieUnSuccessfulReturn()
     {
-        librarian.checkOut(customer, movie);
-        assertFalse(librarian.returnBack(null, customer));
+        librarian.checkOut(customer, movie, ledger);
+        assertFalse(librarian.returnBack(null, customer, ledger));
     }
 
     @Test
     public void checkBorrower()
     {
-        librarian.checkOut(customer, movie);
-        Customer borrower = librarian.getBorrower(movie);
+        librarian.checkOut(customer, movie, ledger);
+        Customer borrower = librarian.getBorrower(movie, ledger);
         assertEquals(borrower,customer);
     }
     @Test
     public void checkIfNoBorrower()
     {
-        librarian.checkOut(customer, movie);
-        librarian.returnBack(movie,customer);
-        Customer borrower = librarian.getBorrower(movie);
+        librarian.checkOut(customer, movie, ledger);
+        librarian.returnBack(movie,customer, ledger);
+        Customer borrower = librarian.getBorrower(movie, ledger);
         assertEquals(borrower, null);
     }
 }

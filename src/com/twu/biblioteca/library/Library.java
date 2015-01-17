@@ -1,6 +1,7 @@
 package com.twu.biblioteca.library;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 //collection of books made accessible to a defined community for borrowing
@@ -10,6 +11,8 @@ public class Library {
     List<Book> books = new ArrayList<Book>();
     List<Movie> movies = new ArrayList<Movie>();
     List<Customer> customers = new ArrayList<Customer>();
+    HashMap<Item, Customer> ledger = new HashMap<Item, Customer>();
+
 
     public Library(String name, Librarian librarian) {
         this.name = name;
@@ -50,22 +53,28 @@ public class Library {
     public ArrayList<String[]> getValuesStatement(ArrayList<Item> items)
     {
         ArrayList<String[]> itemValues= new ArrayList<String[]>();
-        //if (items.size() == 0)
-        //{
             for(Item item : items)
             {
                 if (item.availabilty == true)
                     itemValues.add(item.getValues());
             }
-        //}
         return itemValues;
     }
     public boolean checkOut(Customer customer,Item item) {
-        return librarian.checkOut(customer, item);
+        return librarian.checkOut(customer, item,ledger);
+    }
+
+    public String[] getBorrowerDetails(Item item)
+    {
+        Customer borrower = librarian.getBorrower(item,ledger);
+        if( borrower == null)
+        return null;
+        else
+        return borrower.getContactInfo();
     }
 
     public boolean returnItem(Item item, Customer customer) {
-        return librarian.returnBack(item, customer);
+        return librarian.returnBack(item, customer,ledger);
     }
 
     public Customer validateLogin(String libraryNumber,String password)

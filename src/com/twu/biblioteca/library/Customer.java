@@ -1,8 +1,5 @@
 package com.twu.biblioteca.library;
 
-/**
- * Created by subham on 11/01/15.
- */
 public class Customer {
     private String libraryNumber;
     private String password;
@@ -10,20 +7,30 @@ public class Customer {
     private String email;
     private String phoneNumber;
 
-    public Customer(String name, String email, String phoneNumber, String libraryNumber, String password)
-    {
-        this.name=name;
+    public Customer(String name, String email, String phoneNumber, String libraryNumber, String password) {
+        this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.libraryNumber = libraryNumber;
         this.password = password;
     }
 
-    public boolean equals(Customer customer)
-    {
+    public Customer() {
+
+    }
+
+    public Customer(Customer customer) {
+        this.name = customer.name;
+        this.email = customer.email;
+        this.phoneNumber = customer.phoneNumber;
+        this.libraryNumber = customer.libraryNumber;
+        this.password = customer.password;
+    }
+
+    public boolean equals(Customer customer) {
         if (customer == null)
             return false;
-        if ( name == customer.name &&
+        if (name == customer.name &&
                 libraryNumber == customer.libraryNumber &&
                 email == customer.email &&
                 phoneNumber == customer.phoneNumber &&
@@ -37,17 +44,12 @@ public class Customer {
     }
 
     public boolean isPasswordValid(String password) {
-        if(this.password.equals(password))
+        if (this.password.equals(password))
             return true;
         return false;
     }
 
-    public String getContactInfo() {
-        String result="";
-        result += ("MY CONTACT INFORMATION\n");
-        result += ("NAME:"+name+"\n");
-        result += ("EMAIL ID:"+email+"\n");
-        result += ("PHONE NUMBER:"+phoneNumber+"\n");
-        return result;
+    public String[] getContactInfo() {
+        return new String[]{name, email, phoneNumber};
     }
 }

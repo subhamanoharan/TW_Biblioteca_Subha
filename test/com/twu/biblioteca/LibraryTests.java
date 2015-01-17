@@ -18,41 +18,13 @@ public class LibraryTests {
     Customer customer = new Customer("John","john@gmail.com","9123456780","123-1234","xxxx");
     ArrayList<Item> items = new ArrayList<Item>();
 
-/*
-    @Test
-    public void shouldprintWhenBooksUnAvailable() {
-        ArrayList<String[]> result=biblioteca.getListOfBooks();
-        assertEquals("NO ITEMS CURRENTLY AVAILABLE FOR CHECKOUT\n", result);
-    }
-
-    @Test
-    public void shouldprintWhenMoviesUnAvailable() {
-        ArrayList<String[]> result=biblioteca.getListOfMovies();
-        assertEquals("NO ITEMS CURRENTLY AVAILABLE FOR CHECKOUT\n", result);
-    }
-
-    @Test
-    public void shouldprintBooksAvailable() throws IOException {
-        biblioteca.addBook(new Book("Head First Java", "Kerry Bates", 1990));
-        biblioteca.addBook(new Book("Harry Potter and the Philosopher's stone", "J.K.Rowling", 2001));
-        ArrayList<String[]> result=biblioteca.getListOfBooks();
-        verifyOutput(result, "BooksList");
-    }
-    @Test
-    public void shouldprintMovieAvailable() throws IOException {
-        biblioteca.addMovie(movie);
-        ArrayList<String[]> result=biblioteca.getListOfMovies();
-        verifyOutput(result, "MoviesList");
-    }*/
-
-
     @Test
     public void shouldValidateBookListAfterCheckOut() throws IOException {
         biblioteca.addCustomer(customer);
-        biblioteca.addBook(new Book("Head First Java", "Kerry Bates", 1990));
+        biblioteca.addBook(book);
         //biblioteca.addBook(new Book("Harry Potter and the Philosopher's stone", "J.K.Rowling", 2001));
         //biblioteca.addBook(new Book("Java", "Kerry Bates", 1990));
-        biblioteca.checkOut(customer, biblioteca.getItemByTitle("Java"));
+        biblioteca.checkOut(customer, biblioteca.getItemByTitle("Head First Java"));
         ArrayList<String[]> result=biblioteca.getListOfBooks();
         ArrayList<String[]> expected = new ArrayList<String[]>();
         assertTrue(checkEqualityOfArrayListOfStringArrays(result,expected));

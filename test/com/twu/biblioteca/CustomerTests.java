@@ -35,14 +35,14 @@ public class CustomerTests {
         Customer customer = new Customer("John","john@gmail.com","9123456780","123-1234","xxxx");
         assertTrue(customer.isPasswordValid("xxxx"));
     }
-
+/*
     @Test
     public void shouldPrintUserInfo()
     {
         Customer customer = new Customer("John","john@gmail.com","9123456780","123-1234","xxxx");
         String result=customer.getContactInfo();
         assertEquals("MY CONTACT INFORMATION\nNAME:John\nEMAIL ID:john@gmail.com\nPHONE NUMBER:9123456780\n",result);
-    }
+    }*/
 
     @Test
     public void checkInValidPassword()

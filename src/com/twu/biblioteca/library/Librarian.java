@@ -3,14 +3,13 @@ package com.twu.biblioteca.library;
 import java.util.HashMap;
 public class Librarian {
     private String name;
-    HashMap<Item, Customer> ledger = new HashMap<Item, Customer>();
 
     public Librarian(String name)
     {
         this.name = name;
     }
 
-    public boolean checkOut(Customer customer, Item item) {
+    public boolean checkOut(Customer customer, Item item, HashMap<Item, Customer> ledger) {
         boolean statusOfCheckOut = false;
         if(item != null)
         {
@@ -21,7 +20,7 @@ public class Librarian {
         return statusOfCheckOut;
     }
 
-    public boolean returnBack(Item item, Customer customer) {
+    public boolean returnBack(Item item, Customer customer, HashMap<Item, Customer> ledger) {
         boolean statusOfReturn = false;
         if (item != null) {
             Customer borrower = ledger.get(item);
@@ -33,7 +32,7 @@ public class Librarian {
         return statusOfReturn;
     }
 
-    public Customer getBorrower(Item item)
+    public Customer getBorrower(Item item, HashMap<Item, Customer> ledger)
     {
         return ledger.get(item);
     }
