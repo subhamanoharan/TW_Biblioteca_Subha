@@ -16,13 +16,6 @@ public class MovieTests {
     }
 
     @Test
-    public void validatePrintDetails()
-    {
-        String result=movie.getDetails();
-        assertEquals("I                                                                     Shankar                                                               1990                                                                  UNRATED                                                               \n", result);
-    }
-
-    @Test
     public void validateSuccessfulCheckOut()
     {
         boolean result=movie.checkOut();

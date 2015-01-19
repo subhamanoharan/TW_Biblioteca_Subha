@@ -16,13 +16,6 @@ public class BookTests {
     }
 
     @Test
-    public void validatePrintDetails()
-    {
-        String result=book.getDetails();
-        assertEquals("Head First Java                                                       Kerry Bates                                                           1990                                                                  \n", result);
-    }
-
-    @Test
     public void validateSuccessfulCheckOut()
     {
         boolean result=book.checkOut();

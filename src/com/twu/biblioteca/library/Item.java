@@ -24,8 +24,5 @@ public abstract class Item {
             return true;
         }
     }
-
-    public abstract String getDetails();
-
-    public abstract String[] getValues();
+    public abstract boolean equals(Item item);
 }

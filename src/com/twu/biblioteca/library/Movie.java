@@ -5,6 +5,8 @@ public class Movie extends Item {
     private String director;
     private String movie_rating;
     private int year;
+    private String title;
+
     public Movie(String name, int year, String director, String movie_rating)
     {
         this.name = name;
@@ -21,8 +23,30 @@ public class Movie extends Item {
                 name, director, year, movie_rating));
     }
 
-    public String[] getValues()
+    public int getYear() {
+        return year;
+    }
+
+    public String getMovieRating() {
+        return movie_rating;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public String getTitle() {
+        return name;
+    }
+
+    public boolean equals(Item movie1)
     {
-        return new String[]{name, director,movie_rating,String.valueOf(year)};
+        Movie movie=(Movie)movie1;
+        if(name.equals(movie.name) &&
+                year == movie.year &&
+                director.equals(movie.director) &&
+                movie_rating.equals(movie.movie_rating))
+            return true;
+        return false;
     }
 }

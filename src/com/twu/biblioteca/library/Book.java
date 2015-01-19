@@ -10,18 +10,27 @@ public class Book extends Item {
         this.yearPublished = yearPublished;
         this.availabilty = true;
     }
-
-    public String getDetails() {
-        return String.format("%-70s%-70s%-70s\n",
-                title, author, yearPublished);
-    }
-     public String[] getValues()
-     {
-         return new String[]{title, author, String.valueOf(yearPublished)};
-     }
-
     public String getTitle() {
         return title;
     }
 
+    public String getAuthor(){ return author;}
+
+    public int getYear(){
+        return yearPublished;
     }
+
+    public String getName() {
+        return title;
+    }
+
+    public boolean equals(Item book1)
+    {
+        Book book =(Book)book1;
+        if(title.equals(book.title) &&
+                author.equals(book.author) &&
+                yearPublished == book.yearPublished)
+            return true;
+        return false;
+    }
+}

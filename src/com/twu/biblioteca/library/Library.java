@@ -1,31 +1,29 @@
 package com.twu.biblioteca.library;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 //collection of books made accessible to a defined community for borrowing
 public class Library {
-    Librarian librarian;
-    String name;
-    List<Book> books = new ArrayList<Book>();
-    List<Movie> movies = new ArrayList<Movie>();
-    List<Customer> customers = new ArrayList<Customer>();
-    HashMap<Item, Customer> ledger = new HashMap<Item, Customer>();
+    private List<Book> books = new ArrayList<Book>();
+    private List<Movie> movies = new ArrayList<Movie>();
+    private HashMap<Item, String> ledger = new HashMap<Item, String>();
+    private HashMap<String,Customer> customers = new HashMap<String, Customer>();
 
-
-    public Library(String name, Librarian librarian) {
-        this.name = name;
-        this.librarian = librarian;
+    public Library()
+    {
+        setUpLibrary();
     }
 
     public void setUpLibrary() {
         addMovie(new Movie("I", 1990, "Shankar", "unrated"));
         addBook(new Book("Head First Java", "Kerry Bates", 1990));
         addBook(new Book("Harry Potter and the Philosopher's stone", "J.K.Rowling", 2001));
-        addCustomer(new Customer("John", "john@gmail.com", "9123456780", "123-1234", "xxxx"));
-        addCustomer(new Customer("Jane", "jane@gmail.com", "9123456789", "123-1235", "xxxx"));
-    }
+        addCustomer("123-1234",new Customer("John", "john@gmail.com", "9123456780",  "xxxx"));
+        addCustomer( "123-1235",new Customer("Jane", "jane@gmail.com", "9123456789", "xxxx"));
+      }
 
     public void addBook(Book book) {
         books.add(book);
@@ -35,55 +33,81 @@ public class Library {
         movies.add(movie);
     }
 
-    public void addCustomer(Customer newCustomer)
+    public void addCustomer(String libraryNo,Customer newCustomer)
     {
-        customers.add(newCustomer);
+        customers.put(libraryNo, newCustomer);
     }
 
-    public ArrayList<String[]> getListOfMovies()
+    public List<Item> getBooks()
     {
-        return getValuesStatement((ArrayList) movies);
+        List<Item> itemsAvailable = new ArrayList<Item>();
+        for(Book book : books)
+        {
+            if(book.getAvailability() == true)
+                itemsAvailable.add(book);
+        }
+        return itemsAvailable;
     }
 
-    public ArrayList<String[]> getListOfBooks()
+    public String getLibraryNo(Customer customer) {
+        Collection<String> keys = customers.keySet();
+        for( String key : keys) {
+        if(customers.get(key).equals(customer))
+            return key;
+        }
+        return null;
+    }
+    public Customer getContactInfo(String libraryNumber)
     {
-        return getValuesStatement((ArrayList) books);
+        return customers.get(libraryNumber);
     }
 
-    public ArrayList<String[]> getValuesStatement(ArrayList<Item> items)
+    public List<Item> getMovies()
     {
-        ArrayList<String[]> itemValues= new ArrayList<String[]>();
-            for(Item item : items)
-            {
-                if (item.availabilty == true)
-                    itemValues.add(item.getValues());
-            }
-        return itemValues;
+        List<Item> itemsAvailable = new ArrayList<Item>();
+        for(Item item : movies)
+        {
+            if(item.getAvailability() == true)
+                itemsAvailable.add(item);
+        }
+        return itemsAvailable;
     }
-    public boolean checkOut(Customer customer,Item item) {
-        return librarian.checkOut(customer, item,ledger);
+    public boolean checkOut(Item item,String loggedInCustomer) {
+        boolean statusOfCheckOut = false;
+        if(item != null)
+        {
+            statusOfCheckOut = item.checkOut();
+            if(statusOfCheckOut == true)
+                ledger.put(item,loggedInCustomer);
+        }
+        return statusOfCheckOut;
     }
 
-    public String[] getBorrowerDetails(Item item)
+    public Customer getBorrowerDetails(Item item)
     {
-        Customer borrower = librarian.getBorrower(item,ledger);
+        String borrower = ledger.get(item);;
         if( borrower == null)
         return null;
         else
-        return borrower.getContactInfo();
+        return customers.get(borrower);
     }
 
-    public boolean returnItem(Item item, Customer customer) {
-        return librarian.returnBack(item, customer,ledger);
+    public boolean returnItem(Item item,String loggedInCustomer) {
+        boolean statusOfReturn = false;
+        if (item != null) {
+            String borrower = ledger.get(item);
+            if (borrower != null && borrower.equals(loggedInCustomer)) {
+                statusOfReturn = item.returnBack();
+                ledger.remove(item);
+            }
+        }
+        return statusOfReturn;
     }
 
     public Customer validateLogin(String libraryNumber,String password)
     {
-        for(Customer customer : customers)
-        {
-            if(customer.getLibraryNumber().equals(libraryNumber) && customer.isPasswordValid(password))
-                return customer;
-        }
+        Customer customer = customers.get(libraryNumber);
+        if(customer!=null && customer.isPasswordValid(password)) return customer;
         return null;
     }
 
